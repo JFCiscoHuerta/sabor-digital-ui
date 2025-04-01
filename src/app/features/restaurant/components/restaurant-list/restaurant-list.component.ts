@@ -1,4 +1,3 @@
-import { Restaurant } from './../../model/restaurant';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Restaurant } from '../../model/restaurant';
 import { RestaurantDto } from '../../model/restaurantDto';
@@ -15,7 +14,7 @@ export class RestaurantListComponent {
   private restaurantService = inject(RestaurantService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  restaurantList: [] Restaurant[];
+  restaurantList?: Restaurant[];
 
 
 }
