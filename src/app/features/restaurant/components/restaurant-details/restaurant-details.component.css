@@ -1,0 +1,9 @@
+.restaurant-details {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+.restaurant-logo {
+  max-width: 100px;
+  margin-top: 10px;
+}
