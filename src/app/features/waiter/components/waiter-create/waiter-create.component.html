@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-card-title>{{ isEditMode ? 'Edit Waiter' : 'Create Waiter' }}</mat-card-title>
+
+  <form [formGroup]="waiterForm" (ngSubmit)="submitForm()">
+
+    <mat-form-field>
+      <mat-label>Firstname</mat-label>
+      <input matInput formControlName="firstname" required>
+      <mat-error *ngIf="waiterForm.get('firstname')?.invalid && waiterForm.get('firstname')?.touched">
+        Firstname is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Lastname</mat-label>
+      <input matInput formControlName="lastname" required>
+      <mat-error *ngIf="waiterForm.get('lastname')?.invalid && waiterForm.get('lastname')?.touched">
+        Lastname is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" required>
+      <mat-error *ngIf="waiterForm.get('phone')?.invalid && waiterForm.get('phone')?.touched">
+        Phone is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="waiterForm.get('email')?.invalid && waiterForm.get('email ')?.touched">
+        Email is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Tables</mat-label>
+      <mat-select formControlName="tablesId">
+        <mat-option>
+          None
+        </mat-option>
+        <mat-option *ngFor="let table of tables" [value]="table.id">
+          {{ table.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="waiterForm.invalid">
+      {{ isEditMode? 'Update' : 'Save' }}
+    </button>
+
+  </form>
+
+</mat-card>
