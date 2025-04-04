@@ -1,0 +1,10 @@
+.waiters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.waiter-card {
+  width: 300px;
+}

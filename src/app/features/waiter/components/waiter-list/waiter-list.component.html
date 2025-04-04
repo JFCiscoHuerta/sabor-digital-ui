@@ -1,0 +1,10 @@
+
+<div class="waiters-container">
+  <app-waiter-card *ngFor="let waiter of waiters" [waiter]="waiter"></app-waiter-card>
+</div>
+
+<div class="pagination">
+  <button mat-button (click)="changePages(page - 1)" [disabled]="page <= 0"><</button>
+  <span> {{ page + 1 }} / {{ totalPages }} </span>
+  <button mat-button (click)="changePages(page + 1)" [disabled]="page >= totalPages - 1">></button>
+</div>

@@ -17,16 +17,16 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { MenuItemDto } from '../models/menuItemDto';
+import { WaiterDto } from '../models/waiterDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class MenuItemsService {
+export class WaitersService {
 
-    protected basePath = 'http://localhost:8082';
+    protected basePath = 'http://localhost:8084';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
@@ -56,66 +56,19 @@ export class MenuItemsService {
 
 
     /**
-     * Create a new menu item
-     * Adds a new menu item to the database.
-     * @param body
+     * Delete a waiter
+     * Deletes a waiter by its ID.
+     * @param id Waiter ID
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public create2(body: MenuItemDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public create2(body: MenuItemDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public create2(body: MenuItemDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public create2(body: MenuItemDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling create2.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            '*/*'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
-
-        return this.httpClient.request<any>('post',`${this.basePath}/api/menu-items`,
-            {
-                body: body,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete a menu item
-     * Removes a menu item from the database.
-     * @param id
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public deleteById2(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteById2(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteById2(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteById2(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteById(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteById(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling deleteById2.');
+            throw new Error('Required parameter id was null or undefined when calling deleteById.');
         }
 
         let headers = this.defaultHeaders;
@@ -133,7 +86,7 @@ export class MenuItemsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/menu-items/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/api/waiters/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -144,17 +97,17 @@ export class MenuItemsService {
     }
 
     /**
-     * Get All menu items
-     * Retrieves a paginated list of menu items.
+     * Get all waiters
+     * Retrieves all waiters with pagination.
      * @param page Page number
      * @param size Page size
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAll1(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getAll1(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getAll1(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getAll1(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getAll(page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getAll(page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getAll(page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getAll(page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
 
@@ -181,7 +134,7 @@ export class MenuItemsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/api/menu-items`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/waiters`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -193,19 +146,31 @@ export class MenuItemsService {
     }
 
     /**
-     * Get a menu item by ID
-     * Retrieves a single menu item based on its ID.
-     * @param id Menu Item ID
+     * Get waiters by restaurant ID
+     * Retrieves all waiters assigned to a restaurant.
+     * @param id Restaurant ID
+     * @param page Page number
+     * @param size Page size
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getById2(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getById2(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getById2(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getById2(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getAllByRestaurantId(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getAllByRestaurantId(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getAllByRestaurantId(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getAllByRestaurantId(id: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getById2.');
+            throw new Error('Required parameter id was null or undefined when calling getAllByRestaurantId.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
         }
 
         let headers = this.defaultHeaders;
@@ -223,7 +188,49 @@ export class MenuItemsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/api/menu-items/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/waiters/by-restaurant/${encodeURIComponent(String(id))}`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get waiter by ID
+     * Retrieves a waiter by its ID.
+     * @param id Waiter ID
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getById(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getById(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling getById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('get',`${this.basePath}/api/waiters/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -234,19 +241,19 @@ export class MenuItemsService {
     }
 
     /**
-     * Get menu items by IDs
-     * Retrieves a list of menu items based on the provided IDs.
-     * @param ids
+     * Get waiters by multiple IDs
+     * Retrieves a list of waiters by their IDs.
+     * @param ids List of waiter IDs
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getByIds(ids: Array<number>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getByIds(ids: Array<number>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getByIds(ids: Array<number>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getByIds(ids: Array<number>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getWaitersByIds(ids: Array<number>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getWaitersByIds(ids: Array<number>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getWaitersByIds(ids: Array<number>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getWaitersByIds(ids: Array<number>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (ids === null || ids === undefined) {
-            throw new Error('Required parameter ids was null or undefined when calling getByIds.');
+            throw new Error('Required parameter ids was null or undefined when calling getWaitersByIds.');
         }
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -271,7 +278,7 @@ export class MenuItemsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/api/menu-items/by-ids`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/waiters/by-ids`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -283,24 +290,19 @@ export class MenuItemsService {
     }
 
     /**
-     * Update a menu item
-     * Updates an existing menu item with new information.
+     * Create a new waiter
+     * Saves a new waiter in the system.
      * @param body
-     * @param id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update2(body: MenuItemDto, id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public update2(body: MenuItemDto, id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public update2(body: MenuItemDto, id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public update2(body: MenuItemDto, id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public save(body: WaiterDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public save(body: WaiterDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public save(body: WaiterDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public save(body: WaiterDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling update2.');
-        }
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update2.');
+            throw new Error('Required parameter body was null or undefined when calling save.');
         }
 
         let headers = this.defaultHeaders;
@@ -323,7 +325,59 @@ export class MenuItemsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/menu-items/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('post',`${this.basePath}/api/waiters`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Update a waiter
+     * Updates an existing waiter by ID.
+     * @param body
+     * @param id Waiter ID
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public update(body: WaiterDto, id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public update(body: WaiterDto, id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public update(body: WaiterDto, id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public update(body: WaiterDto, id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling update.');
+        }
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling update.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<any>('put',`${this.basePath}/api/waiters/${encodeURIComponent(String(id))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
