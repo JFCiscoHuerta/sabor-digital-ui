@@ -1,7 +1,7 @@
-import { RestaurantService } from './../../services/restaurant.service';
+  import { RestaurantService } from './../../services/restaurant.service';
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { Restaurant } from '../../model/restaurant';
+import { Restaurant } from '../../models/restaurant';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';

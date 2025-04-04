@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Restaurant } from '../../model/restaurant';
-import { RestaurantDto } from '../../model/restaurantDto';
+import { Restaurant } from '../../models/restaurant';
+import { RestaurantDto } from '../../models/restaurantDto';
 import { RestaurantService } from './../../services/restaurant.service';
 import { Component, inject } from '@angular/core';
 
