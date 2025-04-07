@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-title>{{ isEditMode ? 'Edit Restaurant' : 'Create Restaurant' }}</mat-card-title>
+  <form [formGroup]="restaurantForm" (ngSubmit)="submitForm()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched">
+        The name is required and must have more than 3 characters.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" required>
+      <mat-error *ngIf="restaurantForm.get('address')?.invalid && restaurantForm.get('address')?.touched">
+        Address is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="phone" required>
+      <mat-error *ngIf="restaurantForm.get('phone')?.invalid && restaurantForm.get('phone')?.touched">
+        Phone Number must be valid.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Website</mat-label>
+      <input matInput formControlName="website">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Logo (URL)</mat-label>
+      <input matInput formControlName="logo">
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="restaurantForm.invalid">
+      {{ isEditMode ? 'Update' : 'Save' }}
+    </button>
+  </form>
+</mat-card>

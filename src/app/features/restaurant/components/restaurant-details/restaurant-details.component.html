@@ -1,0 +1,17 @@
+<div *ngIf="restaurant" class="restaurant-details">
+  <mat-card>
+    <mat-card-title>{{ restaurant.name }}</mat-card-title>
+    <mat-card-content>
+      <p><strong>Address:</strong> {{ restaurant.address }}</p>
+      <p><strong>Phone:</strong> {{ restaurant.phone }}</p>
+      <p *ngIf="restaurant.website"><strong>Website:</strong> <a [href]="restaurant.website" target="_blank">{{ restaurant.website }}</a></p>
+      <img *ngIf="restaurant.logo" [src]="restaurant.logo" alt="Restaurant Logo" class="restaurant-logo"/>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="goToUpdate()">Update</button>
+    </mat-card-actions>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="delete()">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
