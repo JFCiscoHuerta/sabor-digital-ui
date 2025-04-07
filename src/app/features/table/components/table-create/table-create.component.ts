@@ -1,5 +1,5 @@
 import { WaitersService } from './../../../waiter/services/waiters.service';
-import { switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TablesService } from '../../services/tables.service';
