@@ -5,6 +5,7 @@
       <p><strong>Phone Number:</strong> {{ waiter.phone }} </p>
       <p><strong>Email:</strong> {{ waiter.email }} </p>
       <p><strong>Tables:</strong> -- </p>
+      <p *ngFor="let table of tables"> {{ table.tableIdentifier }} </p>
       <p><strong>Restaurant:</strong> {{ waiter.restaurantId }} </p>
     </mat-card-content>
 
