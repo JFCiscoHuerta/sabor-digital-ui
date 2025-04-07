@@ -59,7 +59,7 @@ export class TableCreateComponent {
           this.tableId = +id;
           return this.tablesService.getById(this.tableId);
         }
-        return [];
+        return of(null);
       })
     ).subscribe({
       next: (data) => this.tableForm.patchValue(data),
