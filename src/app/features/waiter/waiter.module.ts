@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WaiterRoutingModule } from './waiter-routing.module';
 import { WaitersService } from './services/waiters.service';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { TablesService } from '../table/services/tables.service';
 
 @NgModule({
   declarations: [],
@@ -11,7 +12,8 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
     WaiterRoutingModule,
   ],
   providers: [
-    WaitersService
+    WaitersService,
+    TablesService
   ]
 })
 export class WaiterModule { }
