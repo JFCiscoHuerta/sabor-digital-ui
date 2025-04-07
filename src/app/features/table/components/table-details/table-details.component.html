@@ -1,0 +1,18 @@
+<div *ngIf="table" class="table-details">
+  <mat-card>
+    <mat-card-title> {{ table.tableIdentifier }} </mat-card-title>
+    <mat-card-content>
+      <p><strong>Waiters:</strong></p>
+      <p *ngFor="let waiter of waiters"> {{ waiter.firstname }} {{ waiter.lastname }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card-actions>
+    <button mat-button (click)="goToUpdate()">Update</button>
+  </mat-card-actions>
+
+  <mat-card-actions>
+    <button mat-button (click)="delete()">Delete</button>
+  </mat-card-actions>
+
+</div>
