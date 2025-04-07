@@ -1,0 +1,36 @@
+<mat-card>
+  <mat-card-title> {{ isEditMode ? 'Edit Table' : 'Create Table' }} </mat-card-title>
+
+  <form [formGroup]="tableForm" (ngSubmit)="submitForm()">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Table Identifier</mat-label>
+      <input matInput formControlName="tableIdentifier" required>
+      <mat-error *ngIf="tableForm.get('tableIdentifier')?.invalid && tableForm.get('tableIdentifier')?.touched">
+        The table identifier is required and must have more than 1 character.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Select Waiters</mat-label>
+      <mat-select formControlName="waitersId" multiple>
+        <mat-option *ngFor="let waiter of waiters" [value]="waiter.id">
+          {{ waiter.firstname }} {{ waiter.lastname }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-chip-listbox *ngIf="tableForm.value.waitersId?.lenght">
+      <mat-chip *ngFor="let waiterId of tableForm.value.waitersId" (removed)="removeWaiter(waiterId)" removable>
+        {{ getWaiterName(waiterId) }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-listbox>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="tableForm.invalid">
+      {{ isEditMode ? 'Update' : 'Save' }}
+    </button>
+
+  </form>
+
+</mat-card>

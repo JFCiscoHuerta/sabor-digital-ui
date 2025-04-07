@@ -1,0 +1,19 @@
+.table-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.form-card {
+  padding: 20px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+}

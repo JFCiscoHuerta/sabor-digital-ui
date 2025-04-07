@@ -8,7 +8,6 @@ import { RestaurantService } from '../../services/restaurant.service';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
-
 @Component({
   selector: 'app-restaurant-create',
   imports: [
