@@ -1,1 +1,16 @@
-<p>header works!</p>
+<mat-toolbar class="toolbar" color="primary">
+  <div class="toolbar-content">
+    <div class="brand">
+      <img src="" alt="logo" class="logo">
+      <span class="title">Sabor Digital</span>
+    </div>
+
+    <nav class="nav-links">
+      <a mat-button [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+      <a mat-button [routerLink]="['/pricing']">Pricing</a>
+      <a mat-button [routerLink]="['/about']">Abous Us</a>
+      <a mat-button [routerLink]="['/login']">Login</a>
+    </nav>
+
+  </div>
+</mat-toolbar>
