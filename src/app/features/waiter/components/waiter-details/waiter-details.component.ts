@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Waiter } from '../../models/waiter';
 import { of, switchMap } from 'rxjs';
 import { WaiterDto } from '../../models/waiterDto';
+import { TablesService } from '../../../table/services/tables.service';
+import { Table } from '../../../table/models/table';
 
 @Component({
   selector: 'app-waiter-details',
@@ -19,13 +21,19 @@ import { WaiterDto } from '../../models/waiterDto';
 })
 export class WaiterDetailsComponent {
   private waiterService = inject(WaitersService);
+  private tableService = inject(TablesService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   waiter?: WaiterDto;
   waiterId?: number
+  tables?: Table[];
 
   constructor() {
+    this.loadDetails();
+  }
+
+  loadDetails() {
     this.route.paramMap.pipe(
       switchMap(params => {
         const id = params.get('id');
@@ -35,11 +43,20 @@ export class WaiterDetailsComponent {
         }
         this.waiterId = +id;
         return this.waiterService.getById(this.waiterId);
-
       })
     ).subscribe({
-      next: (data) => this.waiter = data,
+      next: (data) => {
+        this.waiter = data;
+        this.loadAsignedTables();
+      },
       error: err => console.error("Error fetching waiter details", err)
+    });
+  }
+
+  loadAsignedTables() {
+    this.tableService.getByIds(this.waiter?.tablesId as number[]).subscribe({
+      next: (data) => this.tables = data,
+      error: err => console.log('Error fetching tables', err)
     });
   }
 

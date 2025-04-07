@@ -35,17 +35,21 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Tables</mat-label>
-      <mat-select formControlName="tablesId">
-        <mat-option>
-          None
-        </mat-option>
+      <mat-select formControlName="tablesId" multiple="">
         <mat-option *ngFor="let table of tables" [value]="table.id">
-          {{ table.name }}
+          {{ table.tableIdentifier }}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-chip-listbox *ngIf="waiterForm.value.tablesId?.lenght">
+      <mat-chip *ngFor="let tableId of waiterForm.value.tablesId" (removed)="removeTable(tableId)" removable>
+        {{ getTableIdentifier(tableId) }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-listbox>
 
     <button mat-flat-button color="primary" type="submit" [disabled]="waiterForm.invalid">
       {{ isEditMode? 'Update' : 'Save' }}
