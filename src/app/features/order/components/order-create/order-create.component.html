@@ -1,0 +1,71 @@
+<mat-card class="order-form-card">
+  <mat-card-title>{{ isEditMode ? 'Edit Order' : 'Create Order' }}</mat-card-title>
+  <mat-card-content [formGroup]="orderForm">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Waiter</mat-label>
+      <mat-select formControlName="waiterId" required>
+        <mat-option *ngFor="let waiter of waiters" [value]="waiter.id">
+          {{ waiter.firstname }} {{ waiter.lastname }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Table</mat-label>
+      <mat-select formControlName="tableId">
+        <mat-option *ngFor="let table of tables" [value]="table.id">
+          {{ table.tableIdentifier }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Items</mat-label>
+      <mat-select formControlName="itemsId" multiple required>
+        <mat-option *ngFor="let item of menuItems" [value]="item.id">
+          {{ item.name }} - ${{ item.price }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Order Type</mat-label>
+      <mat-select formControlName="orderType" required>
+        <mat-option value="DINE_IN">Dine In</mat-option>
+        <mat-option value="TAKEAWAY">Takeaway</mat-option>
+        <mat-option value="DELIVERY">Delivery</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Payment Type</mat-label>
+      <mat-select formControlName="paymentType" required>
+        <mat-option value="CASH">Cash</mat-option>
+        <mat-option value="CREDIT_CARD">Credit Card</mat-option>
+        <mat-option value="DEBIT_CARD">Debit Card</mat-option>
+        <mat-option value="DIGITAL_WALLET">Digital Wallet</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Order Status</mat-label>
+      <mat-select formControlName="orderStatus" required>
+        <mat-option value="PENDING">Pending</mat-option>
+        <mat-option value="CONFIRMED">Confirmed</mat-option>
+        <mat-option value="READY">Ready</mat-option>
+        <mat-option value="DELIVERED">Delivered</mat-option>
+        <mat-option value="CANCELLED">Cancelled</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-stroked-button color="primary" (click)="submitForm()" [disabled]="orderForm.invalid">
+      <mat-icon>save</mat-icon>
+      {{ isEditMode ? 'Update' : 'Create' }}
+    </button>
+    <button mat-button (click)="cancel()">Cancel</button>
+  </mat-card-actions>
+</mat-card>

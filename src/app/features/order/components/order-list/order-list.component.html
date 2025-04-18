@@ -1,0 +1,35 @@
+<mat-card class="p-4">
+  <h2>Orders</h2>
+  <mat-divider></mat-divider>
+
+  <table mat-table [dataSource]="orders || []" class="mat-elevation-z2 w-full mt-4">
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let order"> {{ order.createdAt | date:'medium' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let order"> ${{ order.price }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let order">
+        <button mat-raised-button color="primary" (click)="goToDetails(order.id)">
+          Details
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div class="flex justify-between mt-4">
+    <button mat-button (click)="changePages(page - 1)" [disabled]="page === 0">Previous</button>
+    <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+    <button mat-button (click)="changePages(page + 1)" [disabled]="page + 1 >= totalPages">Next</button>
+  </div>
+</mat-card>
