@@ -1,0 +1,85 @@
+<div *ngIf="order" class="order-details">
+  <mat-card class="order-card">
+    <mat-card-title class="text-2xl font-bold mb-4">Order #{{ order.id }}</mat-card-title>
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="mt-4">
+      <div class="detail-row">
+        <mat-icon color="primary">calendar_today</mat-icon>
+        <span class="label">Date:</span>
+        <span class="value">{{ order.createdAt | date:'medium' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="accent">attach_money</mat-icon>
+        <span class="label">Price:</span>
+        <span class="value">${{ order.price | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="primary">person</mat-icon>
+        <span class="label">Waiter:</span>
+        <span class="value">{{ waiter?.firstname }} {{ waiter?.lastname }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="accent">menu_restaurant</mat-icon>
+        <span class="label">Menu:</span>
+        <span class="value">#{{ table?.tableIdentifier }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="accent">table_restaurant</mat-icon>
+        <span class="label">Table:</span>
+        <span class="value">#{{ table?.tableIdentifier }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="primary">restaurant_menu</mat-icon>
+        <span class="label">Order Type:</span>
+        <span class="value">{{ order.orderType }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="warn">hourglass_bottom</mat-icon>
+        <span class="label">Order Status:</span>
+        <mat-chip [color]="getStatusColor(order.orderStatus)" selected>
+          {{ order.orderStatus }}
+        </mat-chip>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon color="accent">credit_card</mat-icon>
+        <span class="label">Payment Type:</span>
+        <span class="value">{{ order.paymentType }}</span>
+      </div>
+
+      <div class="detail-row items-list">
+        <mat-icon color="accent">list</mat-icon>
+        <span class="label">Items:</span>
+        <mat-list dense class="item-container" *ngIf="items">
+          <mat-list-item *ngFor="let item of items">
+            <mat-icon matListIcon>fastfood</mat-icon>
+            <h4 matLine>{{ item.name }} · ${{ item.price }}</h4>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions align="end">
+      <button mat-stroked-button color="primary" (click)="goToUpdate()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button mat-stroked-button color="warn" (click)="delete()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+
+</div>
