@@ -283,6 +283,60 @@ export class MenuItemsService {
     }
 
     /**
+     * Get menu items by it menu ID
+     * Retrieves a list of menu items based on the provided menu ID.
+     * @param id
+     * @param page
+     * @param size
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getByMenu(id: number, page?: number, size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getByMenu(id: number, page?: number, size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getByMenu(id: number, page?: number, size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getByMenu(id: number, page?: number, size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling getByMenu.');
+        }
+
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (page !== undefined && page !== null) {
+            queryParameters = queryParameters.set('page', <any>page);
+        }
+        if (size !== undefined && size !== null) {
+            queryParameters = queryParameters.set('size', <any>size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('get',`${this.basePath}/api/menu-items/all-by-menu/${encodeURIComponent(String(id))}`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Update a menu item
      * Updates an existing menu item with new information.
      * @param body
